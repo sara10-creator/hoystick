@@ -58,21 +58,16 @@
   transform: rotateY(180deg);
 }
 
-/* Stick del pulgar: oscila como si alguien lo moviera */
+/* Botón superior: se presiona */
 .js-stick {
+  animation: js-button 3.2s ease-in-out infinite;
+}
+/* Gatillo: se jala hacia atrás */
+.js-trigger {
   transform-box: view-box;
-  transform-origin: 125px 76px;
-  animation: js-stick 3.2s ease-in-out infinite;
-}
-/* Botones de dedo: se presionan en secuencia */
-.js-finger {
-  animation: js-press 3.6s ease-in-out infinite;
-}
-.js-finger-1 {
-  animation-delay: 0.45s;
-}
-.js-finger-2 {
-  animation-delay: 0.9s;
+  transform-origin: 190px 92px;
+  animation: js-trigger 3.2s ease-in-out infinite;
+  animation-delay: 1.4s;
 }
 /* Sensores traseros: se iluminan en secuencia */
 .js-pad-light {
@@ -201,29 +196,24 @@
     transform: rotateY(350deg);
   }
 }
-@keyframes js-stick {
+@keyframes js-button {
   0%,
+  14%,
+  100% {
+    transform: translateY(0);
+  }
+  6% {
+    transform: translateY(5px);
+  }
+}
+@keyframes js-trigger {
+  0%,
+  20%,
   100% {
     transform: rotate(0deg);
   }
-  25% {
-    transform: rotate(-9deg);
-  }
-  55% {
-    transform: rotate(7deg);
-  }
-  75% {
-    transform: rotate(-3deg);
-  }
-}
-@keyframes js-press {
-  0%,
-  12%,
-  100% {
-    transform: translateX(0);
-  }
-  5% {
-    transform: translateX(-7px);
+  8% {
+    transform: rotate(14deg);
   }
 }
 @keyframes js-pad {
@@ -243,7 +233,7 @@
   .joystick-float,
   .joystick-shadow,
   .js-stick,
-  .js-finger,
+  .js-trigger,
   .js-pad-light,
   .joystick-turn.js-mode-front,
   .joystick-turn.js-mode-spin {

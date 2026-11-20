@@ -191,10 +191,10 @@ const profiles: Profile[] = [
     color: "#7c5cff",
     active: true,
     bindings: [
-      { button: "RT", action: "Disparar" },
-      { button: "LT", action: "Apuntar" },
-      { button: "A", action: "Saltar" },
-      { button: "X", action: "Recargar" },
+      { button: "GS", action: "Disparar" },
+      { button: "BS", action: "Apuntar" },
+      { button: "T1", action: "Saltar" },
+      { button: "T2", action: "Recargar" },
     ],
     pressure: 62,
     sensitivity: 74,
@@ -207,10 +207,10 @@ const profiles: Profile[] = [
     color: "#20b7ff",
     active: false,
     bindings: [
-      { button: "RT", action: "Atacar" },
-      { button: "LT", action: "Defender" },
-      { button: "A", action: "Interactuar" },
-      { button: "Y", action: "Inventario" },
+      { button: "GS", action: "Atacar" },
+      { button: "BS", action: "Defender" },
+      { button: "T1", action: "Interactuar" },
+      { button: "T3", action: "Inventario" },
     ],
     pressure: 48,
     sensitivity: 56,
@@ -223,10 +223,10 @@ const profiles: Profile[] = [
     color: "#ff6f91",
     active: false,
     bindings: [
-      { button: "RT", action: "Acelerar" },
-      { button: "LT", action: "Frenar" },
-      { button: "A", action: "Freno de mano" },
-      { button: "Y", action: "Cambiar cámara" },
+      { button: "GS", action: "Acelerar" },
+      { button: "BS", action: "Frenar" },
+      { button: "T1", action: "Freno de mano" },
+      { button: "T3", action: "Cambiar cámara" },
     ],
     pressure: 34,
     sensitivity: 68,
@@ -234,12 +234,6 @@ const profiles: Profile[] = [
   },
 ];
 
-const buttons = [
-  { id: "A", action: "Saltar", color: "#69df9d" },
-  { id: "B", action: "Agacharse", color: "#ff6c82" },
-  { id: "X", action: "Recargar", color: "#58b9ff" },
-  { id: "Y", action: "Cambiar arma", color: "#ffc95c" },
-];
 
 function LoginPage({ onLogin }: { onLogin: () => void }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -396,13 +390,11 @@ function LoginPage({ onLogin }: { onLogin: () => void }) {
 }
 
 const configurableButtons = [
-  { id: "RT", name: "Gatillo derecho", defaultAction: "Disparar" },
-  { id: "LT", name: "Gatillo izquierdo", defaultAction: "Apuntar" },
-  { id: "A", name: "Botón A", defaultAction: "Saltar" },
-  { id: "B", name: "Botón B", defaultAction: "Agacharse" },
-  { id: "X", name: "Botón X", defaultAction: "Recargar" },
-  { id: "Y", name: "Botón Y", defaultAction: "Cambiar arma" },
-  { id: "M1", name: "Botón multinivel 1", defaultAction: "Sin asignar" },
+  { id: "GS", name: "Gatillo superior", defaultAction: "Disparar" },
+  { id: "BS", name: "Botón superior", defaultAction: "Apuntar" },
+  { id: "T1", name: "Botón trasero 1", defaultAction: "Saltar" },
+  { id: "T2", name: "Botón trasero 2", defaultAction: "Recargar" },
+  { id: "T3", name: "Botón trasero 3", defaultAction: "Cambiar arma" },
   { id: "MS", name: "Sensor tipo mouse", defaultAction: "Mover cámara" },
 ];
 
@@ -544,7 +536,7 @@ function ProfileCreator({
   onSave: (name: string) => void;
 }) {
   const [name, setName] = useState("");
-  const [selected, setSelected] = useState("RT");
+  const [selected, setSelected] = useState("GS");
   const [action, setAction] = useState("Disparar");
   const [secondAction, setSecondAction] = useState("Sin asignar");
   const [enabled, setEnabled] = useState(true);
@@ -1475,7 +1467,7 @@ function SettingsPage({ onLogout }: { onLogout: () => void }) {
 function Dashboard({ onLogout }: { onLogout: () => void }) {
   const [profileList, setProfileList] = useState(profiles);
   const [activeProfile, setActiveProfile] = useState(1);
-  const [selectedButton, setSelectedButton] = useState("RT");
+  const [selectedButton, setSelectedButton] = useState("GS");
   const [stageView, setStageView] = useState<JoystickView>("front");
   const [enabled, setEnabled] = useState(true);
   const [pressure, setPressure] = useState(62);
@@ -1514,9 +1506,9 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
   const selectButton = (id: string) => {
     setSelectedButton(id);
     setSaved(false);
-    if (id === "RT") setAction("Disparar");
-    else if (id === "LT") setAction("Apuntar");
-    else setAction(buttons.find((button) => button.id === id)?.action || "Sin asignar");
+    setAction(
+      configurableButtons.find((button) => button.id === id)?.defaultAction || "Sin asignar",
+    );
   };
 
   const save = () => {
@@ -1526,11 +1518,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
 
   const selectedPressureLevel = pressureLevels[selectedButton];
   const selectedButtonName =
-    selectedButton === "RT"
-      ? "Gatillo derecho"
-      : selectedButton === "LT"
-        ? "Gatillo izquierdo"
-        : `Botón ${selectedButton}`;
+    configurableButtons.find((button) => button.id === selectedButton)?.name ??
+    `Botón ${selectedButton}`;
 
   if (creatingProfile) {
     return (
@@ -1547,10 +1536,10 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
               color: "#8c6cff",
               active: false,
               bindings: [
-                { button: "RT", action: "Disparar" },
-                { button: "LT", action: "Apuntar" },
-                { button: "A", action: "Saltar" },
-                { button: "B", action: "Agacharse" },
+                { button: "GS", action: "Disparar" },
+                { button: "BS", action: "Apuntar" },
+                { button: "T1", action: "Saltar" },
+                { button: "T2", action: "Recargar" },
               ],
               pressure: 62,
               sensitivity: 74,

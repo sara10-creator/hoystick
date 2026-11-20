@@ -13,16 +13,14 @@ type Hotspot = {
 };
 
 const frontHotspots: Hotspot[] = [
-  { id: "RT", label: "Pulgar", x: 128, y: 6, side: "right" },
-  { id: "A", label: "Dedo 1", x: 214, y: 132, side: "right" },
-  { id: "B", label: "Dedo 2", x: 214, y: 192, side: "right" },
-  { id: "X", label: "Dedo 3", x: 214, y: 252, side: "right" },
+  { id: "BS", label: "Botón superior", x: 128, y: 4, side: "right" },
+  { id: "GS", label: "Gatillo", x: 230, y: 50, side: "right" },
 ];
 
 const backHotspots: Hotspot[] = [
-  { id: "LT", label: "Trasero 1", x: 216, y: 136, side: "right" },
-  { id: "Y", label: "Trasero 2", x: 216, y: 201, side: "right" },
-  { id: "M1", label: "Trasero 3", x: 216, y: 266, side: "right" },
+  { id: "T1", label: "Trasero 1", x: 216, y: 136, side: "right" },
+  { id: "T2", label: "Trasero 2", x: 216, y: 201, side: "right" },
+  { id: "T3", label: "Trasero 3", x: 216, y: 266, side: "right" },
 ];
 
 type Props = {
@@ -69,7 +67,7 @@ export function JoystickController({
       <div className="joystick-shadow" />
       <div className="joystick-float">
         <div className={`joystick-turn js-mode-${mode}`}>
-          {/* ---------- Vista frontal (3/4): pulgar arriba y tres botones de dedo ---------- */}
+          {/* ---------- Vista lateral (3/4): botón y gatillo arriba ---------- */}
           <div className="joystick-face joystick-front">
             <svg viewBox="0 0 260 380" width="260" height="380" aria-hidden={!interactive}>
               <defs>
@@ -93,36 +91,16 @@ export function JoystickController({
                   <stop offset="0" stopColor="#c4635a" />
                   <stop offset="1" stopColor="#7c3530" />
                 </radialGradient>
+                <linearGradient id={`${uid}-jsTrigger`} x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stopColor="#7d7577" />
+                  <stop offset="1" stopColor="#3f393b" />
+                </linearGradient>
                 <linearGradient id={`${uid}-jsStem`} x1="0" x2="1">
                   <stop offset="0" stopColor="#9c9a9e" />
                   <stop offset="0.5" stopColor="#e4e2e6" />
                   <stop offset="1" stopColor="#77757a" />
                 </linearGradient>
               </defs>
-
-              {/* Botones de dedo (detrás del cuerpo, asoman por las ranuras) */}
-              {[
-                { id: "A", y: 145 },
-                { id: "B", y: 205 },
-                { id: "X", y: 265 },
-              ].map((b, i) => (
-                <g
-                  key={b.id}
-                  className={cls(b.id, `js-finger js-finger-${i}`)}
-                  onClick={() => press(b.id)}
-                >
-                  <rect x="178" y={b.y - 13} width="22" height="26" rx="9" fill={`url(#${uid}-jsRed)`} />
-                  <rect
-                    x="192"
-                    y={b.y - 9}
-                    width="5"
-                    height="12"
-                    rx="2.5"
-                    fill="#e08a80"
-                    opacity="0.45"
-                  />
-                </g>
-              ))}
 
               {/* Cuerpo ergonómico con ranuras para los dedos */}
               <path
@@ -168,19 +146,37 @@ export function JoystickController({
                 strokeWidth="1"
                 fill="none"
               />
-              {/* Hombro superior trasero */}
-              <path
-                d="M168 58 C186 52 204 62 206 80 C204 92 196 96 190 96"
-                fill="#4d4648"
-              />
+              {/* Gatillo superior */}
+              <g className={cls("GS", "js-trigger")} onClick={() => press("GS")}>
+                <path
+                  d="M168 66 C180 52 198 40 214 36 C222 35 225 42 220 49 C212 60 206 74 202 90 C198 98 188 98 182 90 Z"
+                  fill={`url(#${uid}-jsTrigger)`}
+                />
+                <path
+                  d="M200 44 C209 40 216 38 219 41"
+                  stroke="#ffffff"
+                  strokeOpacity="0.25"
+                  strokeWidth="2"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M205 52 C201 62 198 72 196 84"
+                  stroke="#c4635a"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                  opacity="0.85"
+                />
+              </g>
 
               {/* Tapa superior */}
               <ellipse cx="125" cy="72" rx="70" ry="26" fill={`url(#${uid}-jsCap)`} />
               <ellipse cx="125" cy="74" rx="46" ry="16" fill="#151214" />
               <ellipse cx="125" cy="77" rx="38" ry="11" fill="#262123" />
 
-              {/* Stick del pulgar */}
-              <g className={cls("RT", "js-stick")} onClick={() => press("RT")}>
+              {/* Botón superior */}
+              <g className={cls("BS", "js-stick")} onClick={() => press("BS")}>
                 <rect x="119" y="40" width="12" height="36" rx="5" fill={`url(#${uid}-jsStem)`} />
                 <ellipse cx="125" cy="78" rx="14" ry="5" fill="#bdbbc0" opacity="0.6" />
                 <ellipse cx="125" cy="40" rx="26" ry="10" fill="#6b2d29" />
@@ -234,9 +230,9 @@ export function JoystickController({
 
               {/* Bandas y sensores */}
               {[
-                { id: "LT", y: 152 },
-                { id: "Y", y: 217 },
-                { id: "M1", y: 282 },
+                { id: "T1", y: 152 },
+                { id: "T2", y: 217 },
+                { id: "T3", y: 282 },
               ].map((pad, i) => (
                 <g key={pad.id}>
                   <path
