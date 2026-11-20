@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { JoystickController, type JoystickView } from "./JoystickController";
 
 type IconName =
   | "grid"
@@ -260,7 +261,7 @@ function LoginPage({ onLogin }: { onLogin: () => void }) {
           <div className="brand-mark">
             <span />
           </div>
-          <span>NEXUS</span>
+          <span>JOYSTICK</span>
         </div>
 
         <div className="showcase-copy">
@@ -281,22 +282,7 @@ function LoginPage({ onLogin }: { onLogin: () => void }) {
 
         <div className="login-controller" aria-hidden="true">
           <div className="login-controller-glow" />
-          <div className="mini-controller">
-            <div className="mini-grip mini-grip-left" />
-            <div className="mini-grip mini-grip-right" />
-            <div className="mini-body">
-              <div className="mini-dpad">+</div>
-              <div className="mini-center">N</div>
-              <div className="mini-buttons">
-                <i />
-                <i />
-                <i />
-                <i />
-              </div>
-              <div className="mini-stick left" />
-              <div className="mini-stick right" />
-            </div>
-          </div>
+          <JoystickController mode="spin" className="login-joystick" />
           <div className="floating-feature feature-one">
             <Icon name="sliders" size={16} />
             <span>
@@ -317,7 +303,7 @@ function LoginPage({ onLogin }: { onLogin: () => void }) {
           <span>
             <Icon name="bluetooth" size={15} /> Conexión segura
           </span>
-          <span>Compatible con Nexus Adaptive</span>
+          <span>Compatible con Joystick</span>
         </div>
       </section>
 
@@ -326,7 +312,7 @@ function LoginPage({ onLogin }: { onLogin: () => void }) {
           <div className="brand-mark">
             <span />
           </div>
-          <span>NEXUS</span>
+          <span>JOYSTICK</span>
         </div>
         <div className="login-form-wrap">
           <div className="login-title">
@@ -391,7 +377,7 @@ function LoginPage({ onLogin }: { onLogin: () => void }) {
             </label>
 
             <button className="login-submit" type="submit">
-              Entrar a Nexus
+              Entrar a Joystick
               <Icon name="chevron" size={17} />
             </button>
           </form>
@@ -591,7 +577,7 @@ function ProfileCreator({
           <div className="brand-mark">
             <span />
           </div>
-          <span>NEXUS</span>
+          <span>JOYSTICK</span>
         </div>
         <div className="creator-progress">
           <span className="complete">
@@ -1100,7 +1086,7 @@ function MyControllerPage({
         <div>
           <p className="eyebrow">DISPOSITIVOS</p>
           <h1>Mi control</h1>
-          <span>Consulta el estado y administra tu control NEXUS.</span>
+          <span>Consulta el estado y administra tu Joystick.</span>
         </div>
         <span className={`connection-badge ${linked ? "connected" : ""}`}>
           <i />
@@ -1123,44 +1109,7 @@ function MyControllerPage({
         <div className="device-controller-wrap" aria-hidden="true">
           <div className="device-signal signal-left" />
           <div className="device-signal signal-right" />
-          <div className="controller device-controller">
-            <div className="controller-top" />
-            <div className="grip left-grip" />
-            <div className="grip right-grip" />
-            <div className="controller-body">
-              <div className="dpad">
-                <i />
-                <i />
-                <i />
-                <i />
-                <b />
-              </div>
-              <div className="stick left-stick">
-                <span />
-              </div>
-              <div className="stick right-stick">
-                <span />
-              </div>
-              <div className="center-buttons">
-                <i />
-                <i />
-              </div>
-              <div className="nexus-button">
-                <span>N</span>
-              </div>
-              <div className="face-buttons device-face-buttons">
-                {buttons.map((button, index) => (
-                  <span
-                    key={button.id}
-                    className={`face-${index}`}
-                    style={{ "--button-color": button.color } as React.CSSProperties}
-                  >
-                    {button.id}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+          <JoystickController mode="spin" className="device-controller device-joystick" />
         </div>
 
         <div className="device-identity">
@@ -1169,9 +1118,9 @@ function MyControllerPage({
           </span>
           <div>
             <p>NOMBRE DEL DISPOSITIVO</p>
-            <h2>{linked ? "Nexus Adaptive" : "Ningún control vinculado"}</h2>
+            <h2>{linked ? "Joystick" : "Ningún control vinculado"}</h2>
             <span>
-              {linked ? "Modelo NX-A1 · Control adaptativo" : "Vincula un control para comenzar"}
+              {linked ? "Modelo JS-1 · Control adaptativo" : "Vincula un control para comenzar"}
             </span>
           </div>
         </div>
@@ -1194,7 +1143,7 @@ function MyControllerPage({
           </span>
           <div>
             <small>FIRMWARE</small>
-            <strong>{linked ? "NEXUS OS 2.4.1" : "No disponible"}</strong>
+            <strong>{linked ? "JOYSTICK OS 2.4.1" : "No disponible"}</strong>
             <p>{linked ? "Software actualizado" : "Se mostrará al vincular"}</p>
           </div>
         </article>
@@ -1205,12 +1154,12 @@ function MyControllerPage({
             </span>
             <span>
               <strong>
-                {linked ? "Control vinculado a tu cuenta" : "Vincula tu control NEXUS"}
+                {linked ? "Control vinculado a tu cuenta" : "Vincula tu Joystick"}
               </strong>
               <small>
                 {linked
                   ? "Tus perfiles se sincronizan automáticamente."
-                  : "Activa Bluetooth y mantén pulsado el botón NEXUS."}
+                  : "Activa Bluetooth y mantén pulsado el botón de encendido."}
               </small>
             </span>
           </div>
@@ -1269,7 +1218,7 @@ function SettingsPage({ onLogout }: { onLogout: () => void }) {
     <form className="settings-page" onSubmit={saveSettings}>
       <header className="settings-heading">
         <div>
-          <p className="eyebrow">PREFERENCIAS DE NEXUS</p>
+          <p className="eyebrow">PREFERENCIAS DE JOYSTICK</p>
           <h1>Ajustes</h1>
           <span>Administra tu cuenta y personaliza tu experiencia.</span>
         </div>
@@ -1286,7 +1235,7 @@ function SettingsPage({ onLogout }: { onLogout: () => void }) {
           </span>
           <div>
             <h2>Información de la cuenta</h2>
-            <p>Datos personales asociados a tu cuenta NEXUS.</p>
+            <p>Datos personales asociados a tu cuenta de Joystick.</p>
           </div>
         </div>
         <div className="account-fields">
@@ -1407,7 +1356,7 @@ function SettingsPage({ onLogout }: { onLogout: () => void }) {
               onChange={setBatteryAlerts}
             />
             <SettingsToggle
-              title="Novedades de NEXUS"
+              title="Novedades de Joystick"
               description="Recibir noticias sobre funciones y mejoras."
               checked={productNews}
               onChange={setProductNews}
@@ -1428,7 +1377,7 @@ function SettingsPage({ onLogout }: { onLogout: () => void }) {
           <div className="settings-toggle-list">
             <SettingsToggle
               title="Datos de diagnóstico"
-              description="Ayuda a mejorar NEXUS con datos de uso anónimos."
+              description="Ayuda a mejorar Joystick con datos de uso anónimos."
               checked={analytics}
               onChange={setAnalytics}
             />
@@ -1527,6 +1476,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
   const [profileList, setProfileList] = useState(profiles);
   const [activeProfile, setActiveProfile] = useState(1);
   const [selectedButton, setSelectedButton] = useState("RT");
+  const [stageView, setStageView] = useState<JoystickView>("front");
   const [enabled, setEnabled] = useState(true);
   const [pressure, setPressure] = useState(62);
   const [sensitivity, setSensitivity] = useState(74);
@@ -1621,7 +1571,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
           <div className="brand-mark">
             <span />
           </div>
-          <span>NEXUS</span>
+          <span>JOYSTICK</span>
         </div>
         <nav className="side-nav" aria-label="Navegación principal">
           <button
@@ -1769,7 +1719,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
             <div className="brand-mark">
               <span />
             </div>
-            <span>NEXUS</span>
+            <span>JOYSTICK</span>
           </div>
           <div className="welcome">
             <p>
@@ -1787,7 +1737,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                 : currentPage === "profiles"
                   ? "Perfiles de juego"
                   : currentPage === "controller"
-                    ? "Nexus Adaptive"
+                    ? "Joystick"
                     : "Hola, Martín"}
             </h1>
           </div>
@@ -1798,7 +1748,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
             <button className="device-pill" onClick={() => setDeviceOpen(!deviceOpen)}>
               <span className={`online-dot ${!controllerLinked ? "offline" : ""}`} />
               <span className="device-copy">
-                <strong>Nexus Adaptive</strong>
+                <strong>Joystick</strong>
                 <small>{controllerLinked ? "Conectado" : "Sin vincular"}</small>
               </span>
               <Icon name="battery" size={19} />
@@ -1812,7 +1762,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                 <Icon name="gamepad" size={30} />
               </div>
               <div>
-                <strong>Nexus Adaptive Controller</strong>
+                <strong>Joystick</strong>
                 <p>
                   <span className={!controllerLinked ? "offline" : ""} />{" "}
                   {controllerLinked ? "Conexión estable · Bluetooth" : "Control no vinculado"}
@@ -1906,8 +1856,18 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                     <h2>Configura tu control</h2>
                   </div>
                   <div className="view-tabs">
-                    <button className="active">Superior</button>
-                    <button>Posterior</button>
+                    <button
+                      className={stageView === "front" ? "active" : ""}
+                      onClick={() => setStageView("front")}
+                    >
+                      Frontal
+                    </button>
+                    <button
+                      className={stageView === "back" ? "active" : ""}
+                      onClick={() => setStageView("back")}
+                    >
+                      Posterior
+                    </button>
                   </div>
                 </div>
                 <p className="panel-description">
@@ -1917,60 +1877,13 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                 <div className="controller-stage">
                   <div className="glow glow-one" />
                   <div className="glow glow-two" />
-                  <button
-                    className={`trigger left ${selectedButton === "LT" ? "active" : ""}`}
-                    onClick={() => selectButton("LT")}
-                  >
-                    <span>LT</span>
-                    <small>Apuntar</small>
-                  </button>
-                  <button
-                    className={`trigger right ${selectedButton === "RT" ? "active" : ""}`}
-                    onClick={() => selectButton("RT")}
-                  >
-                    <span>RT</span>
-                    <small>Disparar</small>
-                  </button>
-                  <div className="controller">
-                    <div className="controller-top" />
-                    <div className="grip left-grip" />
-                    <div className="grip right-grip" />
-                    <div className="controller-body">
-                      <div className="dpad">
-                        <i />
-                        <i />
-                        <i />
-                        <i />
-                        <b />
-                      </div>
-                      <div className="stick left-stick">
-                        <span />
-                      </div>
-                      <div className="stick right-stick">
-                        <span />
-                      </div>
-                      <div className="center-buttons">
-                        <i />
-                        <i />
-                      </div>
-                      <div className="nexus-button">
-                        <span>N</span>
-                      </div>
-                      <div className="face-buttons">
-                        {buttons.map((button, index) => (
-                          <button
-                            key={button.id}
-                            aria-label={`${button.id}: ${button.action}`}
-                            className={`${selectedButton === button.id ? "active" : ""} face-${index}`}
-                            style={{ "--button-color": button.color } as React.CSSProperties}
-                            onClick={() => selectButton(button.id)}
-                          >
-                            {button.id}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                  <JoystickController
+                    mode={stageView}
+                    selected={selectedButton}
+                    onSelect={selectButton}
+                    showHotspots
+                    className="stage-joystick"
+                  />
                   <div className="stage-hint">
                     <Icon name="sparkle" size={15} /> Los cambios se previsualizan en tiempo real
                   </div>

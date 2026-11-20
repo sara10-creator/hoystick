@@ -3801,3 +3801,30 @@ input[type="range"] {
     padding: 6px 8px;
   }
 }
+
+/* ===== Joystick: ubicación de la ilustración en cada pantalla ===== */
+.login-joystick {
+  --js-scale: 0.95;
+  z-index: 1;
+}
+.device-controller.device-joystick {
+  --js-scale: 0.74;
+  transform: scale(var(--js-scale));
+}
+.stage-joystick {
+  --js-scale: 0.92;
+  z-index: 2;
+}
+@media (max-width: 700px) {
+  .device-controller.device-joystick {
+    --js-scale: 0.6;
+  }
+  .stage-joystick {
+    --js-scale: 0.78;
+  }
+}
+@media (max-width: 390px) {
+  .login-joystick {
+    --js-scale: 0.7;
+  }
+}

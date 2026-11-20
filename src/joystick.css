@@ -1,0 +1,259 @@
+/* ===== Joystick: ilustración animada del mando ===== */
+.joystick-scene {
+  --js-scale: 1;
+  position: relative;
+  width: 260px;
+  height: 380px;
+  transform: scale(var(--js-scale));
+  perspective: 1100px;
+  flex-shrink: 0;
+}
+.joystick-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 170px;
+  height: 26px;
+  margin-left: -85px;
+  border-radius: 50%;
+  background: #000;
+  filter: blur(14px);
+  opacity: 0.7;
+  animation: js-shadow 4.5s ease-in-out infinite;
+}
+.joystick-float {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: js-float 4.5s ease-in-out infinite;
+}
+.joystick-turn {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.6, 0, 0.25, 1);
+}
+.joystick-turn.js-mode-front {
+  transform: rotateY(-8deg);
+  animation: js-sway 6s ease-in-out infinite;
+}
+.joystick-turn.js-mode-back {
+  transform: rotateY(180deg);
+}
+.joystick-turn.js-mode-spin {
+  animation: js-spin 12s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+.joystick-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.joystick-face svg {
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.45));
+}
+.joystick-back {
+  transform: rotateY(180deg);
+}
+
+/* Stick del pulgar: oscila como si alguien lo moviera */
+.js-stick {
+  transform-box: view-box;
+  transform-origin: 125px 76px;
+  animation: js-stick 3.2s ease-in-out infinite;
+}
+/* Botones de dedo: se presionan en secuencia */
+.js-finger {
+  animation: js-press 3.6s ease-in-out infinite;
+}
+.js-finger-1 {
+  animation-delay: 0.45s;
+}
+.js-finger-2 {
+  animation-delay: 0.9s;
+}
+/* Sensores traseros: se iluminan en secuencia */
+.js-pad-light {
+  opacity: 0;
+  animation: js-pad 3s ease-in-out infinite;
+}
+.js-pad-1 .js-pad-light {
+  animation-delay: 0.5s;
+}
+.js-pad-2 .js-pad-light {
+  animation-delay: 1s;
+}
+
+.js-clickable {
+  cursor: pointer;
+}
+.js-clickable:hover {
+  filter: brightness(1.25);
+}
+.js-selected {
+  filter: drop-shadow(0 0 6px #9b84ff) drop-shadow(0 0 2px #c9bcff) brightness(1.2);
+}
+.js-selected .js-pad-light {
+  opacity: 0.4;
+  animation: none;
+}
+
+/* Etiquetas clicables */
+.js-hotspot {
+  position: absolute;
+  z-index: 3;
+  transform: translate(0, -50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px 4px 4px;
+  border-radius: 999px;
+  border: 1px solid #393c48;
+  background: rgba(23, 25, 34, 0.92);
+  color: #8d90a0;
+  white-space: nowrap;
+  transition: 0.2s;
+}
+.js-hotspot::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  width: 12px;
+  height: 1px;
+  background: #4b4e5c;
+}
+.js-hotspot b {
+  min-width: 22px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+  font-weight: 800;
+  background: #262833;
+  color: #c9cbd6;
+}
+.js-hotspot small {
+  font-size: 9px;
+  font-weight: 600;
+}
+.js-hotspot:hover,
+.js-hotspot.active {
+  border-color: #785ee8;
+  background: #27213d;
+  color: #b7a9ff;
+  box-shadow: 0 0 12px #684cea44;
+}
+.js-hotspot.active b {
+  background: #7c5cff;
+  color: #fff;
+}
+.joystick-front .js-hotspot:first-of-type {
+  transform: translate(-50%, -50%);
+}
+.joystick-front .js-hotspot:first-of-type::before {
+  display: none;
+}
+
+@keyframes js-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+@keyframes js-shadow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(0.82);
+    opacity: 0.45;
+  }
+}
+@keyframes js-sway {
+  0%,
+  100% {
+    transform: rotateY(-14deg) rotateZ(-1.5deg);
+  }
+  50% {
+    transform: rotateY(10deg) rotateZ(1.5deg);
+  }
+}
+@keyframes js-spin {
+  0%,
+  38% {
+    transform: rotateY(-10deg);
+  }
+  50%,
+  88% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(350deg);
+  }
+}
+@keyframes js-stick {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-9deg);
+  }
+  55% {
+    transform: rotate(7deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+}
+@keyframes js-press {
+  0%,
+  12%,
+  100% {
+    transform: translateX(0);
+  }
+  5% {
+    transform: translateX(-7px);
+  }
+}
+@keyframes js-pad {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.45;
+  }
+  35% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .joystick-float,
+  .joystick-shadow,
+  .js-stick,
+  .js-finger,
+  .js-pad-light,
+  .joystick-turn.js-mode-front,
+  .joystick-turn.js-mode-spin {
+    animation: none;
+  }
+}
+
+/* La cara oculta no debe capturar clics */
+.js-mode-front .joystick-back,
+.js-mode-back .joystick-front,
+.js-mode-spin .joystick-face {
+  pointer-events: none;
+}
